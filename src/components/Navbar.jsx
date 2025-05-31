@@ -28,14 +28,13 @@ const Navbar = async () => {
                     </div>
 
                     {/* Navbar component */}
-
                     <div className="hidden md:flex items-center space-x-4">
                         <Button
                             variant={"ghost"}
                             className="flex items-center gap-2"
                             asChild
                         >
-                            <Link href={"/plant"}>
+                            <Link href={"/plants"}>
                                 <Sprout className="w-4 h-4" />
                                 <span className="hidden lg:inline">Plants</span>
                             </Link>
