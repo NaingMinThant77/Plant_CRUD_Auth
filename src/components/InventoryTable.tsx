@@ -12,25 +12,45 @@ import { Input } from "./ui/input";
 import { Search } from "lucide-react";
 import { PlantConboBox } from "./combo-box";
 import { useState } from "react";
+import { getPlants } from "@/app/actions/plant.action";
 
-const plants = [
-  {
-    id: "121223",
-    name: "snake plant",
-    category: "Indoor",
-    price: 2,
-    stock: 10,
-  },
-];
+// const plants = [
+//   {
+//     id: "121223",
+//     name: "snake plant",
+//     category: "Indoor",
+//     price: 2,
+//     stock: 10,
+//   },
+// ];
 
-export default function InventoryTable() {
+type Plant = Awaited<ReturnType<typeof getPlants>>;
+
+type InventoryTableProps = {
+  plants: Plant;
+};
+
+export default function InventoryTable({ plants }: InventoryTableProps) {
   const [selectCategory, setSelectCategory] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // filter plants by name and category
+  const filteredPlants = plants?.userPlants?.filter(
+    (plant) =>
+      plant.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (selectCategory === "" || plant.category === selectCategory)
+  );
 
   return (
-    <div className="w-full ">
+    <div className="w-full">
       <div className="flex items-center gap-2 py-4">
         <div className="relative max-w-sm w-full">
-          <Input placeholder="Filter plants ..." className="pl-10" />
+          <Input
+            placeholder="Filter plants ..."
+            className="pl-10"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
           <Search className="absolute h-4 w-4 left-3 top-1/2 transform -translate-y-1/2" />
         </div>
         <PlantConboBox
@@ -50,7 +70,7 @@ export default function InventoryTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {plants.map((plant) => (
+          {filteredPlants.map((plant) => (
             <TableRow key={plant.id}>
               <TableCell>{plant.id}</TableCell>
               <TableCell>{plant.name}</TableCell>
