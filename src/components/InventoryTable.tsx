@@ -13,8 +13,11 @@ import { Search } from "lucide-react";
 import { PlantConboBox } from "./combo-box";
 import { useState } from "react";
 import { getPlants } from "@/app/actions/plant.action";
+import { useRouter } from "next/navigation";
+import { Skeleton } from "./ui/skeleton";
+import CreateDialog from "./CreateDialog";
 
-// const plants = [
+// const plantsS = [
 //   {
 //     id: "121223",
 //     name: "snake plant",
@@ -33,6 +36,7 @@ type InventoryTableProps = {
 export default function InventoryTable({ plants }: InventoryTableProps) {
   const [selectCategory, setSelectCategory] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const router = useRouter();
 
   // filter plants by name and category
   const filteredPlants = plants?.userPlants?.filter(
@@ -40,6 +44,66 @@ export default function InventoryTable({ plants }: InventoryTableProps) {
       plant.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
       (selectCategory === "" || plant.category === selectCategory)
   );
+
+  if (!plants) {
+    return (
+      <div className="w-full space-y-4">
+        <div className="flex items-center gap-2 py-4">
+          <Skeleton className="h-10 w-full max-w-sm" />
+          <Skeleton className="h-10 w-32" />
+          <Skeleton className="h-10 w-32" />
+        </div>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>
+                <Skeleton className="w-full h-4" />
+              </TableHead>
+              <TableHead>
+                <Skeleton className="w-full h-4" />
+              </TableHead>
+              <TableHead>
+                <Skeleton className="w-full h-4" />
+              </TableHead>
+              <TableHead>
+                <Skeleton className="w-full h-4" />
+              </TableHead>
+              <TableHead>
+                <Skeleton className="w-full h-4" />
+              </TableHead>
+              <TableHead className="text-right">
+                <Skeleton className="w-full h-4" />
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {Array.from({ length: 5 }).map((_, i) => (
+              <TableRow key={i}>
+                <TableCell>
+                  <Skeleton className="w-full h-4" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="w-full h-4" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="w-full h-4" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="w-full h-4" />
+                </TableCell>
+                <TableCell>
+                  <Skeleton className="w-full h-4" />
+                </TableCell>
+                <TableCell className="text-right">
+                  <Skeleton className="w-full h-4" />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full">
@@ -57,6 +121,7 @@ export default function InventoryTable({ plants }: InventoryTableProps) {
           value={selectCategory}
           onChange={(val) => setSelectCategory(val)}
         />
+        <CreateDialog />
       </div>
       <Table>
         <TableHeader>
@@ -70,21 +135,27 @@ export default function InventoryTable({ plants }: InventoryTableProps) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {filteredPlants.map((plant) => (
-            <TableRow key={plant.id}>
-              <TableCell>{plant.id}</TableCell>
-              <TableCell>{plant.name}</TableCell>
-              <TableCell>{plant.category}</TableCell>
-              <TableCell>{plant.price}</TableCell>
-              <TableCell className="font-bold">{plant.stock}</TableCell>
-              <TableCell className="text-right">
-                <div className="flex justify-end space-x-4">
-                  <h1>Edit Button</h1>
-                  <h1>Delete Button</h1>
-                </div>
-              </TableCell>
-            </TableRow>
-          ))}
+          {filteredPlants.map((plant) => {
+            // aloe vera => aloe-vera
+            const slugifiedName = plant.name.toLowerCase().replace(/\s+/g, "-");
+            const slug = `${plant.id}--${slugifiedName}`;
+            const plantUrl = `/plants/${slug}`;
+            return (
+              <TableRow key={plant.id} onClick={() => router.push(plantUrl)}>
+                <TableCell>{plant.id}</TableCell>
+                <TableCell>{plant.name}</TableCell>
+                <TableCell>{plant.category}</TableCell>
+                <TableCell>{plant.price}</TableCell>
+                <TableCell className="font-bold">{plant.stock}</TableCell>
+                <TableCell className="text-right">
+                  <div className="flex justify-end space-x-4">
+                    <h1>Edit Button</h1>
+                    <h1>Delete Button</h1>
+                  </div>
+                </TableCell>
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </div>
