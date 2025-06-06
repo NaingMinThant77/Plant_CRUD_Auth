@@ -9,13 +9,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Input } from "./ui/input";
-import { Search } from "lucide-react";
+import { Search, TrashIcon } from "lucide-react";
 import { PlantConboBox } from "./combo-box";
 import { useState } from "react";
 import { getPlants } from "@/app/actions/plant.action";
 import { useRouter } from "next/navigation";
 import { Skeleton } from "./ui/skeleton";
 import CreateDialog from "./CreateDialog";
+import EditDialog from "./EditDialog";
 
 // const plantsS = [
 //   {
@@ -148,9 +149,12 @@ export default function InventoryTable({ plants }: InventoryTableProps) {
                 <TableCell>{plant.price}</TableCell>
                 <TableCell className="font-bold">{plant.stock}</TableCell>
                 <TableCell className="text-right">
-                  <div className="flex justify-end space-x-4">
-                    <h1>Edit Button</h1>
-                    <h1>Delete Button</h1>
+                  <div
+                    className="flex justify-end space-x-4 items-center"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <EditDialog plant={plant} />
+                    <TrashIcon className="w-5 h-5 text-red-500" />
                   </div>
                 </TableCell>
               </TableRow>
