@@ -72,20 +72,20 @@ export async function editPlant(
   }
 }
 
-// export async function deletePlant(
-//   id: string //identify which plant we are editing
-// ) {
-//   try {
-//     const currentUserId = await getUserId();
-//     if (!currentUserId) return;
+export async function deletePlant(
+  id: string //identify which plant we are editing
+) {
+  try {
+    const currentUserId = await getUserId();
+    if (!currentUserId) return;
 
-//     const deletedPlant = await prisma.plants.delete({
-//       where: { id },
-//     });
-//     revalidatePath("/plants");
-//     return deletedPlant;
-//   } catch (error) {
-//     console.error("Error deleting plant:", error);
-//     throw error;
-//   }
-// }
+    const deletedPlant = await prisma.plant.delete({
+      where: { id },
+    });
+
+    return deletedPlant;
+  } catch (error) {
+    console.error("Error deleting plant:", error);
+    throw error;
+  }
+}

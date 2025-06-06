@@ -12,7 +12,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { Sprout } from "lucide-react";
+import { EditIcon } from "lucide-react";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
@@ -58,12 +58,12 @@ export default function EditDialog({ plant }: EditDialogProp) {
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button
-          variant="default"
+          variant="secondary"
           className="ml-auto flex items-center gap-2"
           asChild
         >
           <span>
-            <Sprout className="w-4 h-4" />
+            <EditIcon className="w-4 h-4" />
             Edit Plant
           </span>
         </Button>

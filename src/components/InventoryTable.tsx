@@ -9,7 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Input } from "./ui/input";
-import { Search, TrashIcon } from "lucide-react";
+import { Search } from "lucide-react";
 import { PlantConboBox } from "./combo-box";
 import { useState } from "react";
 import { getPlants } from "@/app/actions/plant.action";
@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { Skeleton } from "./ui/skeleton";
 import CreateDialog from "./CreateDialog";
 import EditDialog from "./EditDialog";
+import DeleteDialgo from "./DeleteDialog";
 
 // const plantsS = [
 //   {
@@ -154,7 +155,7 @@ export default function InventoryTable({ plants }: InventoryTableProps) {
                     onClick={(e) => e.stopPropagation()}
                   >
                     <EditDialog plant={plant} />
-                    <TrashIcon className="w-5 h-5 text-red-500" />
+                    <DeleteDialgo plant={plant} />
                   </div>
                 </TableCell>
               </TableRow>
