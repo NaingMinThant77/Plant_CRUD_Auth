@@ -54,7 +54,7 @@ export default function CreateDialog() {
       <AlertDialogTrigger asChild>
         <Button
           variant="default"
-          className="ml-auto flex items-center gap-2"
+          className="ml-auto flex items-center gap-2 bg-chart-2 hover:bg-chart-2/90"
           asChild
         >
           <span>
@@ -133,7 +133,12 @@ export default function CreateDialog() {
 
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction type="submit">Submit</AlertDialogAction>
+            <AlertDialogAction
+              type="submit"
+              className="bg-chart-2 hover:bg-chart-2/90"
+            >
+              Submit
+            </AlertDialogAction>
           </AlertDialogFooter>
         </form>
       </AlertDialogContent>
