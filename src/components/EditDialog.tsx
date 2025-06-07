@@ -20,6 +20,7 @@ import { PlantConboBox } from "./combo-box";
 import { useState } from "react";
 import { editPlant, getPlantById } from "@/app/actions/plant.action";
 import toast from "react-hot-toast";
+import ImageUpload from "./ImageUpload";
 
 type Plant = Awaited<ReturnType<typeof getPlantById>>;
 
@@ -125,6 +126,15 @@ export default function EditDialog({ plant }: EditDialogProp) {
                 onChange={(e) => handleChange("price", Number(e.target.value))}
               />
             </div>
+          </div>
+
+          <div className="space-y-3">
+            <Label htmlFor="image">Image</Label>
+            <ImageUpload
+              endpoint="postImage"
+              value={formData.imageUrl}
+              onChange={(url) => handleChange("imageUrl", url ?? "")}
+            />
           </div>
 
           <AlertDialogFooter>
