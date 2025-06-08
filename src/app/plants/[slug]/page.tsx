@@ -4,12 +4,12 @@ import PlantCard from "./PlantCard";
 import { stackServerApp } from "@/stack";
 import { SignIn } from "@stackframe/stack";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const [id] = params.slug.split("--");
+type PageProps = {
+  params: Promise<{ slug: string }>;
+};
+
+export async function generateMetadata({ params }: PageProps) {
+  const [id] = (await params).slug.split("--");
   const plant = await getPlantById(id);
   return {
     title: plant ? plant.name : "Plant Title",
@@ -17,9 +17,9 @@ export async function generateMetadata({
   };
 }
 
-const Page = async ({ params }: { params: { slug: string } }) => {
+const Page = async ({ params }: PageProps) => {
   const user = await stackServerApp.getUser();
-  const [id] = params.slug.split("--");
+  const [id] = (await params).slug.split("--");
   const plant = await getPlantById(id);
 
   if (!user) {
